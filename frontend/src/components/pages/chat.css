@@ -1,0 +1,235 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-size: 16px;
+  background-color: hsl(270, 20%, 96%);
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-chat{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: linear-gradient(to right, hsl(264,100%,61%),hsl(293,100%,63%));
+  border-radius: 20px 20px 20px 20px;
+
+}
+
+.header-chat::before{
+  content: '';
+  position: absolute;
+  left: 23.5%;
+  width: 200px;
+  height: 27px;
+  background-color: #fff;
+  border-radius: 0px 0px 16px 16px;
+}
+.desc{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px 20px;
+}
+.chevron{
+  position: relative;
+  margin-top: 0px;
+  margin-right: 15px;
+  opacity: 0.8;
+}
+.chevron::before{
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0px;
+  width: 3px;
+  height: 9px;
+  background-color: #fff;
+  transform: skew(-28deg,0deg);
+}
+.chevron::after{
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 3px;
+  height: 9px;
+  background-color: #fff;
+  transform: skew(28deg,0deg);
+}
+.avtar img{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: 2px;
+  border: 2px solid #fff;
+}
+.name{
+  color: #fff;
+  margin-top: -4px;
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+.status{
+  font-size: 14px;
+  color: #fff;
+  opacity: 0.6;
+}
+.dots{
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin-left: 85%;
+  background-color: #fff;
+  border-radius: 50%;
+}
+.dots::before{
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  top: -6px;
+  left: 0px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+.dots::after{
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  top: 6px;
+  left: 0px;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.messages{
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 1em 10px;
+  font-size: 12px;
+  border-radius: 10px 10px 20px 20px;
+}
+
+.text{
+  border-radius: 15px;
+}
+.reply{
+  background-color: hsl(206, 6%, 79%);
+  max-width: 60%;
+  margin-bottom: 8px;
+  padding: 8px 10px 8px 12px;
+  border-bottom-left-radius: 0px;
+  color: hsl(274,55%,52%);
+  margin-left: 4px;
+}
+.pics{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.pics img{
+  width: 72px;
+  padding: 5px 7px;
+  border-radius: 25%;
+  cursor: pointer;
+}
+.user{
+  max-width: 60%;
+  width: fit-content;
+  display: flex;
+  align-items: flex-end;
+  margin-left: 120px;
+  color: hsl(271, 15%, 43%);
+  background-color: #fff;
+  padding: 10px;
+  border-bottom-right-radius: 0;
+  margin-top: 7px;
+  margin-right: 5px;
+  box-shadow: 0 10px 20px hsl(206, 6%, 79%);
+
+}
+.user1{
+  margin-left: auto;
+  margin-bottom: 7px;
+}
+.offer{
+  max-width: 65%;
+  background: linear-gradient(to right, hsl(293, 100%, 63%), hsl(264, 100%, 61%));
+  padding: 2px 25px 2px 13px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
+  border-bottom-left-radius: 0;
+  margin-bottom: 8px;
+  margin-left: 4px;
+  height: 44px;
+}
+.offer div{
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  opacity: 0.4;
+}
+.offer p{
+  margin-left: -12px;
+  opacity: 0.8;
+}
+.offer span{
+  font-size: 20px;
+  font-weight: 700;
+}
+.hour{
+  margin-left: -32px !important;
+}
+.messages form{
+  position: absolute;
+  display: inline-flex;
+  margin-top: 5px;
+  bottom: 10%;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.messages .user-input{
+  width: 100%;
+  padding: 18px 25px 15px;
+  border-radius: 35px;
+  border: 1px solid hsl(270, 20%, 96%);
+  opacity: 0.8;
+  box-shadow: 0 10px 20px hsl(206, 6%, 79%);
+
+}
+.messages .user-input:focus{
+  outline: none;
+}
+.messages .arrow {
+  font-size: 30px;
+  color: #fff;
+  background-color: hsl(271, 36%, 24%);
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  z-index: 100;
+  cursor: pointer;
+  position: absolute;
+  right: -17%;
+  text-align: center;
+}

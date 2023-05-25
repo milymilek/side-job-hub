@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  django: &django
+    build: .
+    container_name: sidejobhub_local_django
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - sidejobhub_network
+    #command: uvicorn config.wsgi:application --host 0.0.0.0 --reload --reload-include '*.html --lifespan on'
+    command: python manage.py runserver 0.0.0.0:8000
+#    command: gunicorn -c gunicorn_config.py config.wsgi:application \
+#         --reload \
+#         --workers 2 \
+#         --timeout 120 \
+#         config.asgi:application \
+#         --reload
+
+  db:
+    image: postgres:13
+    container_name: sidejobhub_local_postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    networks:
+      - sidejobhub_network
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    container_name: sidejobhub_local_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - sidejobhub_network
+
+volumes:
+  postgres_data:
+
+networks:
+  sidejobhub_network:
+    external: true

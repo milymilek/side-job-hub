@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ui:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    container_name: react
+    volumes:
+      - .:/app
+      - /app/node_modules/
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    networks:
+      - sidejobhub_network
+
+networks:
+  sidejobhub_network:
+    external: true

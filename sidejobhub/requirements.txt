@@ -1,0 +1,70 @@
+django==4.1.9  # pyup: < 4.2  # https://www.djangoproject.com/
+django-environ==0.10.0  # https://github.com/joke2k/django-environ
+django-model-utils==4.3.1  # https://github.com/jazzband/django-model-utils
+django-allauth==0.54.0  # https://github.com/pennersr/django-allauth
+django-crispy-forms==2.0  # https://github.com/django-crispy-forms/django-crispy-forms
+crispy-bootstrap5==0.7  # https://github.com/django-crispy-forms/crispy-bootstrap5
+django-redis==5.2.0  # https://github.com/jazzband/django-redis
+djangorestframework
+django-admin-datta==1.0.6
+django-cors-headers==3.14.0
+
+gunicorn
+python-dotenv
+whitenoise
+psycopg2-binary==2.9.3
+PyJWT==2.6.0
+channels==4.0.0
+channels_redis==4.1.0
+asgiref==3.7.1
+crispy-bootstrap5==0.7
+
+python-slugify==8.0.1  # https://github.com/un33k/python-slugify
+Pillow==9.5.0  # https://github.com/python-pillow/Pillow
+argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
+redis==4.5.4  # https://github.com/redis/redis-py
+hiredis==2.2.2  # https://github.com/redis/hiredis-py
+celery==5.2.7  # pyup: < 6.0  # https://github.com/celery/celery
+django-celery-beat==2.5.0  # https://github.com/celery/django-celery-beat
+flower==1.2.0  # https://github.com/mher/flower
+uvicorn[standard]==0.22.0  # https://github.com/encode/uvicorn
+
+
+
+
+# local
+Werkzeug[watchdog]==2.3.4 # https://github.com/pallets/werkzeug
+ipdb==0.13.13  # https://github.com/gotcha/ipdb
+watchfiles==0.19.0  # https://github.com/samuelcolvin/watchfiles
+
+# Testing
+# ------------------------------------------------------------------------------
+mypy==1.2.0  # https://github.com/python/mypy
+django-stubs==4.2.0  # https://github.com/typeddjango/django-stubs
+pytest==7.3.1  # https://github.com/pytest-dev/pytest
+pytest-sugar==0.9.7  # https://github.com/Frozenball/pytest-sugar
+
+# Documentation
+# ------------------------------------------------------------------------------
+sphinx==6.2.1  # https://github.com/sphinx-doc/sphinx
+sphinx-autobuild==2021.3.14 # https://github.com/GaretJax/sphinx-autobuild
+
+# Code quality
+# ------------------------------------------------------------------------------
+flake8==6.0.0  # https://github.com/PyCQA/flake8
+flake8-isort==6.0.0  # https://github.com/gforcada/flake8-isort
+coverage==7.2.5  # https://github.com/nedbat/coveragepy
+black==23.3.0  # https://github.com/psf/black
+pylint-django==2.5.3  # https://github.com/PyCQA/pylint-django
+pylint-celery==0.3  # https://github.com/PyCQA/pylint-celery
+pre-commit==3.3.2  # https://github.com/pre-commit/pre-commit
+
+# Django
+# ------------------------------------------------------------------------------
+factory-boy==3.2.1  # https://github.com/FactoryBoy/factory_boy
+
+django-debug-toolbar==4.0.0  # https://github.com/jazzband/django-debug-toolbar
+django-extensions==3.2.1  # https://github.com/django-extensions/django-extensions
+django-coverage-plugin==3.0.0  # https://github.com/nedbat/django_coverage_plugin
+pytest-django==4.5.2  # https://github.com/pytest-dev/pytest-django
+
