@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  django: &django
+  django:
     build: .
     container_name: sidejobhub_local_django
     ports:
@@ -13,7 +13,6 @@ services:
       - redis
     networks:
       - sidejobhub_network
-    #command: uvicorn config.wsgi:application --host 0.0.0.0 --reload --reload-include '*.html --lifespan on'
     command: python manage.py runserver 0.0.0.0:8000
 #    command: gunicorn -c gunicorn_config.py config.wsgi:application \
 #         --reload \
@@ -21,6 +20,20 @@ services:
 #         --timeout 120 \
 #         config.asgi:application \
 #         --reload
+
+  chat:
+    build: .
+    container_name: sidejobhub_local_chat
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+    networks:
+      - sidejobhub_network
+    command: uvicorn config.asgi:application --host 0.0.0.0 --port 5000 --reload --reload-include '*.html'
 
   db:
     image: postgres:13

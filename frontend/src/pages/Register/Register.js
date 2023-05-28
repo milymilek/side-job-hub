@@ -1,14 +1,14 @@
-import Logo from "../assets/icons/logo.svg";
-import mailIcon from "../assets/icons/mail.svg";
-import lockIcon from "../assets/icons/lock.svg";
-import hideIcon from "../assets/icons/hide.svg";
+import Logo from "../../assets/icons/logo.svg";
+import mailIcon from "../../assets/icons/mail.svg";
+import lockIcon from "../../assets/icons/lock.svg";
+import hideIcon from "../../assets/icons/hide.svg";
 import {React, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 import axios from "axios";
 
-import './pages/login.css'
+import '../Login/Login.css'
 
-export const Register = () => {
+export default function Register() {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ export const Register = () => {
 
     const submit = async e => {
         e.preventDefault();
-        await axios.post("register/", {first_name, last_name, email, password});
+        await axios.post("authentication/register/", {first_name, last_name, email, password});
         setNavigate(true);
     }
 

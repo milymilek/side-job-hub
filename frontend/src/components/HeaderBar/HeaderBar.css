@@ -1,0 +1,30 @@
+.header-logo-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.header-logo-name h3 {
+  margin-left: 25px;
+  font-weight: bold;
+}
+
+.header-home {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+.header-home .logout {
+    color: #4d4d4d;
+    height: 2em;
+    width: 2em;
+    margin-right: 30px;
+  }
+
+.header-home .logo-home {
+    height: 7em;
+    width: 7em;
+  }

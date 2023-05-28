@@ -1,13 +1,13 @@
-import Logo from "../assets/icons/logo.svg";
-import mailIcon from "../assets/icons/mail.svg";
-import lockIcon from "../assets/icons/lock.svg";
-import hideIcon from "../assets/icons/hide.svg";
+import Logo from "../../assets/icons/logo.svg";
+import mailIcon from "../../assets/icons/mail.svg";
+import lockIcon from "../../assets/icons/lock.svg";
+import hideIcon from "../../assets/icons/hide.svg";
 import React from "react";
 import {Link} from "react-router-dom";
 
-import './pages/login.css'
+import '../Login/Login.css'
 
-export const ForgotPassword = () => {
+export default function ForgotPassword() {
     return (
         <div className="screen-1">
             <img className='logo' src={Logo} />

@@ -15,5 +15,6 @@ COPY . /app
 RUN pip install -r /app/requirements.txt
 
 EXPOSE 8000
+EXPOSE 5000
 EXPOSE 6379
 EXPOSE 5432

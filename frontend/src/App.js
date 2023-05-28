@@ -1,13 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import {Login} from './components/Login'
-import {Register} from './components/Register'
-import {ForgotPassword} from './components/ForgotPassword'
-
-import Home from './components/pages/home'
-import Chat from './components/pages/chat'
-import Add from './components/pages/add'
+import Login from './pages/Login/Login.js'
+import Register from './pages/Register/Register.js'
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword.js'
+import Home from './pages/Home/Home.js'
+import Chat from './pages/Chat/Chat.tsx'
+import Add from './pages/Add/Add.js'
 
 export default function App() {
   return (

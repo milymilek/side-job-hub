@@ -1,21 +1,21 @@
-import Logo from "../assets/icons/logo.svg";
-import mailIcon from "../assets/icons/mail.svg";
-import lockIcon from "../assets/icons/lock.svg";
-import hideIcon from "../assets/icons/hide.svg";
+import Logo from "../../assets/icons/logo.svg";
+import mailIcon from "../../assets/icons/mail.svg";
+import lockIcon from "../../assets/icons/lock.svg";
+import hideIcon from "../../assets/icons/hide.svg";
 import {React, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 
-import './pages/login.css'
+import './Login.css'
 import axios from "axios";
 
-export const Login = () => {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [navigate, setNavigate] = useState(false);
 
     const submit = async e => {
         e.preventDefault()
-        const {data} = await axios.post("login/",
+        const {data} = await axios.post("authentication/login/",
             {email, password},
             {withCredentials: true}
         );

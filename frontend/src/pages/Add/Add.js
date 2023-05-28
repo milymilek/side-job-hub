@@ -3,12 +3,12 @@ import {Link, Navigate} from 'react-router-dom'
 
 import Logo from "../../assets/icons/logo.svg";
 import Logout from "../../assets/icons/logout.svg"
-
-import NavigationBar from "../NavigationBar"
-
-import "./home.css"
-import axios from "axios";
 import Search from "../../assets/icons/search.svg";
+
+import NavBar from "../../components/NavBar/NavBar.js"
+
+import "../Home/Home.css"
+import axios from "axios";
 
 
 export default function Add() {
@@ -78,7 +78,7 @@ export default function Add() {
             </form>
 
 
-            <NavigationBar />
+            <NavBar />
         </div>
     )
 }

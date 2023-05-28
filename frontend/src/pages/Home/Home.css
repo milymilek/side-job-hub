@@ -5,30 +5,14 @@
   border-radius: 30px;
   box-shadow: 0 0 2em #e6e9f9;
   gap: 1.5em;
-  margin-top: 4%;
+  margin-top: 3%;
   margin-left: 4%;
   margin-right: 4%;
+  margin-bottom: 2%;
   padding: 0em 0.5em 0em 0.5em;
+  width: 1000px;
+  height: 870px;
 }
-
-.screen-2 .header-home {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5em;
-    align-items: center;
-  }
-
-.screen-2 .header-home .logout {
-    color: #4d4d4d;
-    height: 2em;
-    width: 2em;
-    margin-left: 2em;
-  }
-
-.screen-2 .header-home .logo-home {
-    height: 7em;
-    width: 7em;
-  }
 
 .screen-2 .search {
     padding: 1em;
@@ -42,7 +26,7 @@
 .screen-2 .search input {
   border-radius: 20px;
   height: 2em;
-  width: 20em;
+  width: 50em;
   text-align: center;
 }
 
@@ -53,17 +37,30 @@
     width: 1em;
   }
 
+.screen-2 .create-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10em;
+  margin-right: 10em;
+}
+
 
 .screen-2 .recommendations {
   padding: 1em;
 }
 
-.screen-2 .recommendations .header-home{
+.screen-2 .recommendations .recommendations-header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-bottom: 1em;
+    margin-left: 2em;
+    padding-bottom: 0.5em;
   }
+
+.screen-2 .recommendations .recommendations-header h7 {
+  margin-left: 1em;
+}
 
 .screen-2 .recommendations img {
     color: #4d4d4d;
@@ -80,6 +77,12 @@
 
   }
 
+
+.screen-2 .map-widget {
+  display: flex;
+  flex-direction: row;
+}
+
 .screen-2 .recommendations ul div{
     padding: 0.5em;
     background-color: #8cbedb;
@@ -92,14 +95,17 @@
   padding: 1em;
 }
 
-.screen-2 .offers-near .header-home {
-    padding-bottom: 1em;
-
+.screen-2 .offers-near .offers-near-header {
     display: flex;
     flex-direction: row;
-    gap: 0.5em;
     align-items: center;
+    margin-left: 2em;
+    padding-bottom: 0.5em;
   }
+
+.screen-2 .offers-near .offers-near-header h7 {
+  margin-left: 1em;
+}
 
 .screen-2 .offers-near img {
     color: #4d4d4d;
@@ -110,10 +116,12 @@
 
 .screen-2 .offers-near .map {
     background-color: #5ea0cc;
-    height: 7em;
-    width: 20em;
+    height: 12em;
+    width: 55em;
     border-radius: 10px;
+    margin-left: 2.5em;
   }
+
 
 
 
