@@ -7,7 +7,7 @@ import Pin from "../../assets/icons/pin.svg";
 
 import "../../pages/Home/Home.css"
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibWlsb3N6MTU5NiIsImEiOiJjbGk3eGMxZ3czcWxpM2VudDQxNzNpd3hmIn0.WZvRjlQtp6wCnLolwBtssA'
+mapboxgl.accessToken = ''
 
 const styles = {
   width: "100vw",
