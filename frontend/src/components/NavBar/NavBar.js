@@ -76,8 +76,6 @@ export default function App() {
     setUrl(location.pathname);
   }, [location]);
 
-  console.log(url);
-
   return (
     <div className="navbar">
         <MDBNavbar expand='lg' light bgColor='light'>

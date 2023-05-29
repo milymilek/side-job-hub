@@ -7,6 +7,8 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword.js'
 import Home from './pages/Home/Home.js'
 import Chat from './pages/Chat/Chat.tsx'
 import Add from './pages/Add/Add.js'
+import Announcement from './pages/Announcement/Announcement.js'
+import MyMap from './components/MyMap/MyMap.js'
 
 export default function App() {
   return (
@@ -18,8 +20,11 @@ export default function App() {
             <Route path="/register/" element={<Register/>} />
             <Route path="/forgotpassword" element={<ForgotPassword/>} />
             <Route path="/home" element={<Home/>} />
+            <Route path="/announcement/:id" element={<Announcement/>} />
             <Route path="/add" element={<Add/>} />
-            <Route path="/dm" element={<Chat/>} />
+            <Route path="/dm/:conversationName" element={<Chat/>} />
+            {/* <Route path="/conversations" element={<Conversations />} /> */}
+            <Route path="/map" element={<MyMap/>} />
           </Routes>
         </div>
       </Router>

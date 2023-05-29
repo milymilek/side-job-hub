@@ -1,0 +1,27 @@
+.announcement {
+    margin-left: 4em;
+}
+
+.announcement-user {
+    margin-left: 4em;
+    padding: 2em;
+    display: flex;
+    flex-direction: row;
+}
+
+.announcement-user h1 {
+    margin-left: 1em;
+}
+
+.announcement-user .avatar {
+    height: 64px;
+    width: 64px;
+    border-radius: 10%;
+}
+
+.announcement-user .send {
+    height: 32px;
+    width: 32px;
+    margin-left: 1em;
+    margin-top: 7px;
+}

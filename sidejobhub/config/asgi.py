@@ -13,6 +13,9 @@ from pathlib import Path
 
 from django.core.asgi import get_asgi_application
 
+from sidejobhub.chats.middleware import TokenAuthMiddleware
+from channels.sessions import SessionMiddlewareStack
+
 # This allows easy placement of apps within the interior
 # sidejobhub directory.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -33,7 +36,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter  # noqa isort:skip
 application = ProtocolTypeRouter(
     {
         "http": get_asgi_application(),
-        "websocket": URLRouter(routing.websocket_urlpatterns),
+        "websocket": TokenAuthMiddleware(URLRouter(routing.websocket_urlpatterns)),
     }
 )
 

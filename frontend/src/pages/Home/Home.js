@@ -14,6 +14,7 @@ import Logout from "../../assets/icons/logout.svg"
 import NavBar from "../../components/NavBar/NavBar.js"
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
 import SliderList from "../../components/SliderList/SliderList.js";
+import MyMap from "../../components/MyMap/MyMap.js"
 
 import "./Home.css"
 
@@ -58,11 +59,6 @@ export default function Home() {
         )();
     }, []);
 
-    const logout = async () => {
-        await axios.post("logout/", {}, {withCredentials: true})
-        setNavigate(true);
-    }
-
     if (navigate) {
         return <Navigate to="/login"/>;
     }
@@ -84,10 +80,6 @@ export default function Home() {
                 </Link>
             </div>
 
-            {/* <MDBBtn rounded className='create-button' color='secondary'>
-                <Link to="/add">Create Announcement</Link>
-            </MDBBtn> */}
-
             <div className="recommendations">
                 <div className="recommendations-header">
                     <img src={Book} />
@@ -95,10 +87,9 @@ export default function Home() {
                 </div>
 
                 {announcements ? (
-                    //<SliderList items={announcements}/>
-                    <MDBListGroup style={{ marginLeft: '1.5em', width: '57em'}} light>
+                    <MDBListGroup style={{ marginLeft: '1.5em', width: '57em', overflowY:'scroll', maxHeight:'8.5em'}} light>
                         {announcements.map((item, index) => (
-                            <MDBListGroupItem tag='a' href='#' action noBorders active aria-current='true' className='px-3'>
+                            <MDBListGroupItem tag='a' href={'/announcement/'+item.id} action noBorders active aria-current='true' className='px-3' key={index}>
                                 {item.title}
                             </MDBListGroupItem>
                         ))}
@@ -108,7 +99,9 @@ export default function Home() {
                 )}
             </div>
 
-            <div className="map-widget">
+            <MyMap />
+
+            {/* <div className="map-widget">
                 <div className="offers-near">
                     <div className="offers-near-header">
                         <img src={Pin} />
@@ -117,7 +110,7 @@ export default function Home() {
                     
                     <div className="map"></div>
                 </div>
-            </div>
+            </div> */}
 
             <NavBar />
         </div>

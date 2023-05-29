@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 import axios from "axios";
 
@@ -26,8 +26,12 @@ export default function HeaderBar() {
     }, []);
 
     const logout = async () => {
-        await axios.post("logout/", {}, {withCredentials: true})
+        await axios.post("authentication/logout/", {}, {withCredentials: true})
         setNavigate(true);
+    }
+
+    if (navigate) {
+        return <Navigate to="/login"/>;
     }
 
     return (

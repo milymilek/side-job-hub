@@ -19,7 +19,7 @@ class CreateAnnouncement(APIView):
 
 class RecommendedAnnouncement(APIView):
     def get(self, request):
-        announcement_reco = Announcement.objects.order_by('?')[:3]
+        announcement_reco = Announcement.objects.order_by('?')
         serializer = AnnouncementSerializer(announcement_reco, many=True)
         return Response(serializer.data)
 
@@ -28,6 +28,14 @@ class SearchAnnouncement(APIView):
     def get(self, request):
         announcement_reco = Announcement.objects.filter(title__contains=request.data['query'])
         serializer = AnnouncementSerializer(announcement_reco, many=True)
+        return Response(serializer.data)
+
+
+class GetAnnouncement(APIView):
+    def get(self, request, *args, **kwargs):
+        announcement_id = kwargs.get('id')
+        announcement_reco = Announcement.objects.filter(id=announcement_id).first()
+        serializer = AnnouncementSerializer(announcement_reco, many=False)
         return Response(serializer.data)
 
 

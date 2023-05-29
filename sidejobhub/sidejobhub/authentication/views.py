@@ -75,3 +75,8 @@ class UserView(APIView):
         user = User.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
+class JWTView(APIView):
+    def get(self, request):
+        return Response({"jwt": request.COOKIES.get('jwt')})

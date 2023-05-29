@@ -55,7 +55,8 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - sidejobhub_network
+      sidejobhub_network:
+        ipv4_address: 172.18.0.3
 
 volumes:
   postgres_data:
@@ -63,3 +64,8 @@ volumes:
 networks:
   sidejobhub_network:
     external: true
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1

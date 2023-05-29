@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import NavBar from "../../components/NavBar/NavBar.js";
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
@@ -12,13 +12,20 @@ import "./Chat.css";
 
 
 export default function Chat() {
+    const { conversationName } = useParams();
+
     const [message, setMessage] = useState("");
     const [name, setName] = useState("");
     const [avatar, setAvatar] = useState("");
+    const [token, setToken] = useState("");
     const [welcomeMessage, setWelcomeMessage] = useState("");
     const [messageHistory, setMessageHistory] = useState<any>([]);
     
-    const { readyState } = useWebSocket("ws://127.0.0.1:5000/chat_socket", {
+    const webSocketUrl = name ? `ws://127.0.0.1:5000/chat_socket/${conversationName}` : null;
+    const { readyState, sendJsonMessage } = useWebSocket(webSocketUrl, {
+        queryParams: {
+            token: name ? token : "",
+        },
         onOpen: () => {
         console.log("Connected!");
         },
@@ -33,7 +40,10 @@ export default function Chat() {
                 setWelcomeMessage(data.message);
                 break;
             case 'chat_message_echo':
-                setMessageHistory((prev:any) => prev.concat(data));
+                setMessageHistory((prev:any) => prev.concat(data.message));
+                break;
+            case "last_50_messages":
+                setMessageHistory(data.messages);
                 break;
             default:
                 break;
@@ -51,14 +61,17 @@ export default function Chat() {
         )();
     }, []);
 
-    const { sendJsonMessage } = useWebSocket("ws://127.0.0.1:5000/chat_socket");
+    useEffect(() => {
+        (
+            async () => {
+                const {data} = await axios.get("authentication/token/", {withCredentials: true});
+                setToken(data.jwt);
+            }
+        )();
+    }, []);
 
     function handleChangeMessage(e: any) {
         setMessage(e.target.value);
-    }
-
-    function handleChangeName(e: any) {
-        setName(e.target.value);
     }
 
     function handleSubmit() {
@@ -78,9 +91,13 @@ export default function Chat() {
         [ReadyState.UNINSTANTIATED]: "Uninstantiated"
     }[readyState];
 
+    console.log(connectionStatus);
+
     const style1 = {
         backgroundColor: "#eee",
     };
+
+    console.log(messageHistory);
 
     return (
         <div className="screen-2">
@@ -91,7 +108,7 @@ export default function Chat() {
                     <div className="card-body">
 
                         <ul className="list-unstyled mb-0">
-                        <li className="p-2 border-bottom" style={style1}>
+                        {/* <li className="p-2 border-bottom" style={style1}>
                             <a href="#!" className="d-flex justify-content-between">
                             <div className="d-flex flex-row">
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-8.webp" alt="avatar"
@@ -106,56 +123,34 @@ export default function Chat() {
                                 <span className="badge bg-danger float-end">1</span>
                             </div>
                             </a>
-                        </li>
-                        <li className="p-2 border-bottom">
-                            <a href="#!" className="d-flex justify-content-between">
-                            <div className="d-flex flex-row">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-1.webp" alt="avatar"
-                                className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60"/>
-                                <div className="pt-1">
-                                <p className="fw-bold mb-0">Danny Smith</p>
-                                <p className="small text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                            </div>
-                            <div className="pt-1">
-                                <p className="small text-muted mb-1">5 mins ago</p>
-                            </div>
-                            </a>
-                        </li>
-                        <li className="p-2 border-bottom">
-                            <a href="#!" className="d-flex justify-content-between">
-                            <div className="d-flex flex-row">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-2.webp" alt="avatar"
-                                className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60"/>
-                                <div className="pt-1">
-                                <p className="fw-bold mb-0">Alex Steward</p>
-                                <p className="small text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                            </div>
-                            <div className="pt-1">
-                                <p className="small text-muted mb-1">Yesterday</p>
-                            </div>
-                            </a>
-                        </li>
+                        </li> */}
                         </ul>
                     </div>
                     </div>
                 </div>
+
+
+                {/* <div className="conversations-window">
+                    <div className="conversations">
+
+                    </div>
+                </div> */}
+
                 <div className="chatting-window">
                     <div className="chatting">
                         <div className="col-md-6 col-lg-7 col-xl-8" style={{width: "620px"}}>
-                            <ul className="list-unstyled">
+                            <ul className="list-unstyled" style={{overflowY:'scroll', maxHeight:'570px'}}>
                                 {messageHistory.map((message: any, idx: number) => (
-                                    <div className="message">
+                                    <div className="message" key={idx}>
                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
-                                        className="rounded-circle d-flex align-self-start me-3 shadow-1-strong"/>
+                                            className="rounded-circle d-flex align-self-start me-3 shadow-1-strong"/>
                                         <div className="message-body">
                                             <div className="card-header d-flex justify-content-between p-2">
-                                                <p className="fw-bold mb-0">{message.name}&nbsp;&nbsp;</p>
+                                                <p className="fw-bold mb-0">{message.from_user.first_name}&nbsp;&nbsp;</p>
                                                 <p className="text-muted small mb-0"><i className="far fa-clock"></i> {idx} mins ago</p>
                                             </div>
                                             <div className="message-content">
-                                                <p className="mb-0">{message.message}</p>
+                                                <p className="mb-0">{message.content}</p>
                                             </div>
                                         </div>
                                     </div>
