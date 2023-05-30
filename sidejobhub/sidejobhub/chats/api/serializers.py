@@ -31,9 +31,9 @@ class ConversationSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    conversation = serializers.SerializerMethodField()
     from_user = serializers.SerializerMethodField()
     to_user = serializers.SerializerMethodField()
-    conversation = serializers.SerializerMethodField()
 
     class Meta:
         model = Message

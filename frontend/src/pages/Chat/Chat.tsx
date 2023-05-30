@@ -22,6 +22,8 @@ export default function Chat() {
     const [welcomeMessage, setWelcomeMessage] = useState("");
     const [messageHistory, setMessageHistory] = useState<any>([]);
     const [pastConversations, setPastConversations] = useState<any>([]);
+
+    const [participants, setParticipants] = useState<string[]>([]);
     
     const webSocketUrl = name ? `ws://127.0.0.1:5000/chat_socket/${conversationName}` : null;
     const { readyState, sendJsonMessage } = useWebSocket(webSocketUrl, {
@@ -48,6 +50,23 @@ export default function Chat() {
                 setMessageHistory(data.messages);
                 setPastConversations(data.past_conversations);
                 break;
+            case "user_join":
+                setParticipants((pcpts: string[]) => {
+                    if (!pcpts.includes(data.user)) {
+                    return [...pcpts, data.user];
+                    }
+                    return pcpts;
+                });
+                break;
+            case "user_leave":
+                setParticipants((pcpts: string[]) => {
+                    const newPcpts = pcpts.filter((x) => x !== data.user);
+                    return newPcpts;
+                });
+                break;
+            case "online_user_list":
+                setParticipants(data.users);
+                break;    
             default:
                 break;
             }
@@ -101,6 +120,7 @@ export default function Chat() {
 
     console.log(messageHistory);
     console.log(pastConversations);
+    console.log(participants);
 
     const calculateTimeAgo = (timestamp: string): string => {
         const messageDate = new Date(timestamp);
@@ -132,20 +152,22 @@ export default function Chat() {
                                     <Link to={`/dm/${conversation.name}`}>
                                         <div className="d-flex justify-content-between" style={{textDecoration: "none"}}>
                                             <div className="d-flex flex-row">
+
                                                 <img src={require(`../../assets/avatars/${conversation.other_user.avatar}`)} alt="avatar"
                                                 className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60"/>
                                                 <div className="pt-1">
-                                                <p className="fw-bold mb-0">{extractReceiver(conversation.name)}</p>
+                                                <p className="fw-bold mb-0">{extractReceiver(conversation.name, name)}</p>
                                                 <p className="small text-muted">{conversation.last_message.content}</p>
                                                 </div>
                                             </div>
                                             <div className="pt-1">
                                                 <p className="small text-muted mb-1">{calculateTimeAgo(conversation.last_message.timestamp)}</p>
-                                                <span className="badge bg-danger float-end">1</span>
+                                                <span className="badge bg-success float-end">
+                                                    {participants.includes(conversation.other_user.first_name) ? "Active" : ""}
+                                                </span>
                                             </div>
                                         </div>
                                     </Link>
-                                    
                                 </li>
                             ))}
                         </ul>

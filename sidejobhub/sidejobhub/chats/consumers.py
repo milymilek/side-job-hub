@@ -48,6 +48,25 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.channel_name,
         )
 
+        self.send_json(
+            {
+                "type": "online_user_list",
+                "users": [user.first_name for user in self.conversation.online.all()],
+            }
+        )
+        #
+        async_to_sync(self.channel_layer.group_send)(
+            self.conversation_name,
+            {
+                "type": "user_join",
+                "user": self.user['first_name'],
+            },
+        )
+        #
+        self.conversation.online.add(self.user['id'])
+
+        print(f"\n\n\n\n\n\n\n\n{self.conversation.online.all()}\n\n\n\n\n\n\n")
+
         messages = self.conversation.messages.all().order_by("-timestamp")[0:50]
         past_conversations = Conversation.objects.filter(name__contains=self.user['first_name'])
 
@@ -59,6 +78,15 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     def disconnect(self, code):
         print("Disconnected!")
+        async_to_sync(self.channel_layer.group_send)(
+            self.conversation_name,
+            {
+              "type": "user_leave",
+              "user": self.user['first_name'],
+            },
+        )
+        self.conversation.online.remove(self.user['id'])
+
         return super().disconnect(code)
 
     def receive_json(self, content, **kwargs):
@@ -96,4 +124,10 @@ class ChatConsumer(JsonWebsocketConsumer):
     @classmethod
     def encode_json(cls, content):
         return json.dumps(content, cls=UUIDEncoder)
+
+    def user_join(self, event):
+        self.send_json(event)
+
+    def user_leave(self, event):
+        self.send_json(event)
 
