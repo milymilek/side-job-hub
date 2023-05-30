@@ -26,7 +26,7 @@ export default function App() {
             <Route path="/add" element={<Add/>} />
             <Route path="/search/:query" element={<Search/>} />
             <Route path="/dm/:conversationName" element={<Chat/>} />
-            {/* <Route path="/conversations" element={<Conversations />} /> */}
+            <Route path="/dm" element={<Chat/>} />
             <Route path="/map" element={<MyMap/>} />
             <Route path="/profile" element={<Profile/>} />
           </Routes>

@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { Link, useParams } from 'react-router-dom';
+import { useHotkeys } from "react-hotkeys-hook";
 
 import NavBar from "../../components/NavBar/NavBar.js";
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
@@ -24,6 +25,7 @@ export default function Chat() {
     const [pastConversations, setPastConversations] = useState<any>([]);
 
     const [participants, setParticipants] = useState<string[]>([]);
+    const [typing, setTyping] = useState(false);
     
     const webSocketUrl = name ? `ws://127.0.0.1:5000/chat_socket/${conversationName}` : null;
     const { readyState, sendJsonMessage } = useWebSocket(webSocketUrl, {
@@ -66,7 +68,10 @@ export default function Chat() {
                 break;
             case "online_user_list":
                 setParticipants(data.users);
-                break;    
+                break;
+            case 'typing':
+                updateTyping(data);
+                break;
             default:
                 break;
             }
@@ -93,15 +98,20 @@ export default function Chat() {
 
     function handleChangeMessage(e: any) {
         setMessage(e.target.value);
+        onType();
     }
 
     function handleSubmit() {
+        if (message.length === 0) return;
+
         sendJsonMessage({
             type: "chat_message",
             message,
             name
         });
         setMessage("");
+        clearTimeout(timeout.current);
+        timeoutFunction();
     }
 
     const connectionStatus = {
@@ -121,6 +131,51 @@ export default function Chat() {
     console.log(messageHistory);
     console.log(pastConversations);
     console.log(participants);
+
+    const inputReference: any = useHotkeys(
+        "enter",
+        () => {
+          handleSubmit();
+        },
+        {
+          enableOnTags: ["INPUT"]
+        }
+      );
+      
+      useEffect(() => {
+        (inputReference.current as HTMLElement).focus();
+      }, [inputReference]);
+
+
+    const [meTyping, setMeTyping] = useState(false);
+    const timeout = useRef<any>();
+    
+    function timeoutFunction() {
+        setMeTyping(false);
+        sendJsonMessage({ type: "typing", typing: false });
+    }
+    
+    function onType() {
+    if (meTyping === false) {
+        setMeTyping(true);
+        sendJsonMessage({ type: "typing", typing: true });
+        timeout.current = setTimeout(timeoutFunction, 5000);
+    } else {
+        clearTimeout(timeout.current);
+        timeout.current = setTimeout(timeoutFunction, 5000);
+    }
+    }
+    
+    useEffect(() => () => clearTimeout(timeout.current), []);
+
+
+    function updateTyping(event: { user: string; typing: boolean }) {
+        if (event.user !== name) {
+          setTyping(event.typing);
+        }
+      }
+
+
 
     const calculateTimeAgo = (timestamp: string): string => {
         const messageDate = new Date(timestamp);
@@ -152,12 +207,12 @@ export default function Chat() {
                                     <Link to={`/dm/${conversation.name}`}>
                                         <div className="d-flex justify-content-between" style={{textDecoration: "none"}}>
                                             <div className="d-flex flex-row">
-
                                                 <img src={require(`../../assets/avatars/${conversation.other_user.avatar}`)} alt="avatar"
                                                 className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60"/>
                                                 <div className="pt-1">
                                                 <p className="fw-bold mb-0">{extractReceiver(conversation.name, name)}</p>
                                                 <p className="small text-muted">{conversation.last_message.content}</p>
+                                                <p className="small text-muted">{(typing && (conversation.name == conversationName)) ? "Typing..." : ""}</p>
                                                 </div>
                                             </div>
                                             <div className="pt-1">
@@ -207,6 +262,7 @@ export default function Chat() {
                             onChange={handleChangeMessage}
                             value={message}
                             style={{borderRadius: '4px'}}
+                            ref={inputReference}
                         />
                         <button className="btn btn-info btn-rounded float-end" onClick={handleSubmit}>
                             Send

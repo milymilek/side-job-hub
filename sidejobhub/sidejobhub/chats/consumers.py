@@ -67,7 +67,7 @@ class ChatConsumer(JsonWebsocketConsumer):
 
         print(f"\n\n\n\n\n\n\n\n{self.conversation.online.all()}\n\n\n\n\n\n\n")
 
-        messages = self.conversation.messages.all().order_by("-timestamp")[0:50]
+        messages = self.conversation.messages.all().order_by("timestamp")[0:50]
         past_conversations = Conversation.objects.filter(name__contains=self.user['first_name'])
 
         self.send_json({
@@ -107,6 +107,16 @@ class ChatConsumer(JsonWebsocketConsumer):
                     "message": MessageSerializer(message).data,
                 },
             )
+        if message_type == "typing":
+            async_to_sync(self.channel_layer.group_send)(
+                self.conversation_name,
+                {
+                    "type": "typing",
+                    "user": self.user['first_name'],
+                    "typing": content["typing"],
+                },
+            )
+
         return super().receive_json(content, **kwargs)
 
     def chat_message_echo(self, event):
@@ -131,3 +141,5 @@ class ChatConsumer(JsonWebsocketConsumer):
     def user_leave(self, event):
         self.send_json(event)
 
+    def typing(self, event):
+        self.send_json(event)

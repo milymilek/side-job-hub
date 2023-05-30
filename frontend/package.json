@@ -13,6 +13,7 @@
     "mdb-react-ui-kit": "6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hotkeys-hook": "^4.4.0",
     "react-map-gl": "^7.0.25",
     "react-map-gl-geocoder": "^2.2.0",
     "react-router-dom": "^6.9.0",
