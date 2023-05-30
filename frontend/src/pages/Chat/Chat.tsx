@@ -10,16 +10,18 @@ import axios from "axios";
 
 import "./Chat.css";
 
+import {extractReceiver} from "../../utils"
+
 
 export default function Chat() {
     const { conversationName } = useParams();
 
     const [message, setMessage] = useState("");
     const [name, setName] = useState("");
-    const [avatar, setAvatar] = useState("");
     const [token, setToken] = useState("");
     const [welcomeMessage, setWelcomeMessage] = useState("");
     const [messageHistory, setMessageHistory] = useState<any>([]);
+    const [pastConversations, setPastConversations] = useState<any>([]);
     
     const webSocketUrl = name ? `ws://127.0.0.1:5000/chat_socket/${conversationName}` : null;
     const { readyState, sendJsonMessage } = useWebSocket(webSocketUrl, {
@@ -44,6 +46,7 @@ export default function Chat() {
                 break;
             case "last_50_messages":
                 setMessageHistory(data.messages);
+                setPastConversations(data.past_conversations);
                 break;
             default:
                 break;
@@ -56,7 +59,6 @@ export default function Chat() {
             async () => {
                 const {data} = await axios.get("authentication/user/", {withCredentials: true});
                 setName(data.first_name);
-                setAvatar(data.avatar);
             }
         )();
     }, []);
@@ -98,6 +100,23 @@ export default function Chat() {
     };
 
     console.log(messageHistory);
+    console.log(pastConversations);
+
+    const calculateTimeAgo = (timestamp: string): string => {
+        const messageDate = new Date(timestamp);
+        const now = new Date();
+        const diffInMilliseconds = now.getTime() - messageDate.getTime();
+        const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
+        
+
+        if (diffInMinutes > 1440) {
+            return `${Math.floor(diffInMinutes / (60*24))} day(s) ago`;
+        }
+        if (diffInMinutes > 60) {
+            return `${Math.floor(diffInMinutes / 60)} hour(s) ago`;
+        }
+        return `${diffInMinutes} min(s) ago`;
+    }
 
     return (
         <div className="screen-2">
@@ -108,33 +127,31 @@ export default function Chat() {
                     <div className="card-body">
 
                         <ul className="list-unstyled mb-0">
-                        {/* <li className="p-2 border-bottom" style={style1}>
-                            <a href="#!" className="d-flex justify-content-between">
-                            <div className="d-flex flex-row">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-8.webp" alt="avatar"
-                                className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60"/>
-                                <div className="pt-1">
-                                <p className="fw-bold mb-0">John Doe</p>
-                                <p className="small text-muted">Hello, Are you there?</p>
-                                </div>
-                            </div>
-                            <div className="pt-1">
-                                <p className="small text-muted mb-1">Just now</p>
-                                <span className="badge bg-danger float-end">1</span>
-                            </div>
-                            </a>
-                        </li> */}
+                            {pastConversations.map((conversation: any, idx: number) => (
+                                <li className="p-2 border-bottom" style={style1}>
+                                    <Link to={`/dm/${conversation.name}`}>
+                                        <div className="d-flex justify-content-between" style={{textDecoration: "none"}}>
+                                            <div className="d-flex flex-row">
+                                                <img src={require(`../../assets/avatars/${conversation.other_user.avatar}`)} alt="avatar"
+                                                className="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60"/>
+                                                <div className="pt-1">
+                                                <p className="fw-bold mb-0">{extractReceiver(conversation.name)}</p>
+                                                <p className="small text-muted">{conversation.last_message.content}</p>
+                                                </div>
+                                            </div>
+                                            <div className="pt-1">
+                                                <p className="small text-muted mb-1">{calculateTimeAgo(conversation.last_message.timestamp)}</p>
+                                                <span className="badge bg-danger float-end">1</span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     </div>
                 </div>
-
-
-                {/* <div className="conversations-window">
-                    <div className="conversations">
-
-                    </div>
-                </div> */}
 
                 <div className="chatting-window">
                     <div className="chatting">
@@ -142,12 +159,12 @@ export default function Chat() {
                             <ul className="list-unstyled" style={{overflowY:'scroll', maxHeight:'570px'}}>
                                 {messageHistory.map((message: any, idx: number) => (
                                     <div className="message" key={idx}>
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
+                                        <img src={require(`../../assets/avatars/${message.from_user.avatar}`)} alt="avatar"
                                             className="rounded-circle d-flex align-self-start me-3 shadow-1-strong"/>
                                         <div className="message-body">
                                             <div className="card-header d-flex justify-content-between p-2">
                                                 <p className="fw-bold mb-0">{message.from_user.first_name}&nbsp;&nbsp;</p>
-                                                <p className="text-muted small mb-0"><i className="far fa-clock"></i> {idx} mins ago</p>
+                                                <p className="text-muted small mb-0"><i className="far fa-clock"></i> {calculateTimeAgo(message.timestamp)}</p>
                                             </div>
                                             <div className="message-content">
                                                 <p className="mb-0">{message.content}</p>

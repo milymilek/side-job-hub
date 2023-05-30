@@ -10,6 +10,7 @@ import Send from "../../assets/icons/send.svg"
 import NavBar from "../../components/NavBar/NavBar.js"
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
 import { createConversationName } from '../../utils';
+import MyMap from "../../components/MyMap/MyMap.js"
 
 import "../Home/Home.css"
 import "./Announcement.css"
@@ -73,10 +74,11 @@ export default function Announcement() {
             
             <div className="map-widget">
                 <div className="offers-near">
-                    <div className="map"></div>
+                    <div className="map">
+                        <MyMap locations={[announcement]} startLocation={[announcement.longitude, announcement.latitude]} />
+                    </div>
                 </div>
             </div>
-
 
             <NavBar />
         </div>

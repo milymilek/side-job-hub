@@ -4,13 +4,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .serializers import AnnouncementSerializer
+from .serializers import AnnouncementSerializer, AnnouncementSerializer2
 from .models import Announcement
 
 
 class CreateAnnouncement(APIView):
     def post(self, request):
-        serializer = AnnouncementSerializer(data=request.data)
+        serializer = AnnouncementSerializer2(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -25,8 +25,9 @@ class RecommendedAnnouncement(APIView):
 
 
 class SearchAnnouncement(APIView):
-    def get(self, request):
-        announcement_reco = Announcement.objects.filter(title__contains=request.data['query'])
+    def get(self, request, *args, **kwargs):
+        query = kwargs.get('query')
+        announcement_reco = Announcement.objects.filter(title__contains=query)
         serializer = AnnouncementSerializer(announcement_reco, many=True)
         return Response(serializer.data)
 

@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {Link, Navigate} from 'react-router-dom'
 import axios from "axios";
 
@@ -8,7 +7,7 @@ import { MDBListGroup, MDBListGroupItem, MDBBtn } from 'mdb-react-ui-kit';
 import Logo from "../../assets/icons/logo.svg";
 import Pin from "../../assets/icons/pin.svg";
 import Book from "../../assets/icons/book.svg";
-import Search from "../../assets/icons/search.svg"
+import SearchIcon from "../../assets/icons/search.svg"
 import Logout from "../../assets/icons/logout.svg"
 
 import NavBar from "../../components/NavBar/NavBar.js"
@@ -24,6 +23,7 @@ export default function Home() {
     const [error, setError] = useState(null);
     const [first_name, setName] = useState('');
     const [navigate, setNavigate] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
         const getData = async () => {
@@ -68,8 +68,8 @@ export default function Home() {
             <HeaderBar />
 
             <div className="search">
-                <img src={Search}/>
-                <input placeholder="Search for somebody!" onChange={() => {}} />
+                <Link to={`/search/${searchValue}`}><img src={SearchIcon}/></Link>
+                <input placeholder="Search for somebody!" onChange={(e) => setSearchValue(e.target.value)} />
             </div>
 
             <div className="create-button">
@@ -99,18 +99,18 @@ export default function Home() {
                 )}
             </div>
 
-            <MyMap />
-
-            {/* <div className="map-widget">
+            <div className="map-widget">
                 <div className="offers-near">
                     <div className="offers-near-header">
                         <img src={Pin} />
                         <h7>Offers near you</h7>
                     </div>
                     
-                    <div className="map"></div>
+                    <div className="map">
+                        <MyMap locations={announcements} />
+                    </div>
                 </div>
-            </div> */}
+            </div>
 
             <NavBar />
         </div>

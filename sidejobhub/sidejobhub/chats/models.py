@@ -41,4 +41,4 @@ class Message(models.Model):
     read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"From {self.from_user.username} to {self.to_user.username}: {self.content} [{self.timestamp}]"
+        return f"From {self.from_user.first_name} to {self.to_user.first_name}: {self.content} [{self.timestamp}]"

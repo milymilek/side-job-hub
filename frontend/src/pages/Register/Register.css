@@ -1,4 +1,4 @@
-.screen-1 {
+.screen-3 {
     background: #f1f7fe;
     padding: 2em;
     display: flex;
@@ -8,55 +8,16 @@
     gap: 1.5em;
     margin-top: 15%;
     margin-bottom: 2%;
-    height: 600px;
+    height: 675px;
     width: 400px;
   }
-  .screen-1 .logo {
-    margin-bottom: 5em;
+  .screen-3 .logo {
     margin-left: 5em;
     width: 10em;
     height: 10em;
   }
 
-  .screen-1 form {
-    padding-bottom: 1em;
-    padding-bottom: 2em;
-  }
-  .screen-1 .email {
-    background: white;
-    box-shadow: 0 0 2em #e6e9f9;
-    padding: 1em;
-    margin-bottom: 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    border-radius: 20px;
-    color: #4d4d4d;
-    margin-top: -3em;
-  }
-  .screen-1 .email input {
-    outline: none;
-    border: none;
-  }
-  .screen-1 .email input::-moz-placeholder {
-    color: black;
-    font-size: 0.9em;
-  }
-  .screen-1 .email input:-ms-input-placeholder {
-    color: black;
-    font-size: 0.9em;
-  }
-  .screen-1 .email input::placeholder {
-    color: black;
-    font-size: 0.9em;
-  }
-  .screen-1 .email img {
-    color: #4d4d4d;
-    margin-bottom: -0.2em;
-    height: 1em;
-    width: 1em;
-  }
-  .screen-1 .password {
+  .screen-3 .email {
     background: white;
     box-shadow: 0 0 2em #e6e9f9;
     padding: 1em;
@@ -67,32 +28,65 @@
     border-radius: 20px;
     color: #4d4d4d;
   }
-  .screen-1 .password input {
+  .screen-3 .email input {
     outline: none;
     border: none;
   }
-  .screen-1 .password input::-moz-placeholder {
+  .screen-3 .email input::-moz-placeholder {
     color: black;
     font-size: 0.9em;
   }
-  .screen-1 .password input:-ms-input-placeholder {
+  .screen-3 .email input:-ms-input-placeholder {
     color: black;
     font-size: 0.9em;
   }
-  .screen-1 .password input::placeholder {
+  .screen-3 .email input::placeholder {
     color: black;
     font-size: 0.9em;
   }
-  .screen-1 .password img {
+  .screen-3 .email img {
     color: #4d4d4d;
     margin-bottom: -0.2em;
     height: 1em;
     width: 1em;
   }
-  .screen-1 .password .show-hide {
+  .screen-3 .password {
+    background: white;
+    box-shadow: 0 0 2em #e6e9f9;
+    padding: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 20px;
+    color: #4d4d4d;
+  }
+  .screen-3 .password input {
+    outline: none;
+    border: none;
+  }
+  .screen-3 .password input::-moz-placeholder {
+    color: black;
+    font-size: 0.9em;
+  }
+  .screen-3 .password input:-ms-input-placeholder {
+    color: black;
+    font-size: 0.9em;
+  }
+  .screen-3 .password input::placeholder {
+    color: black;
+    font-size: 0.9em;
+  }
+  .screen-3 .password img {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+    height: 1em;
+    width: 1em;
+  }
+  .screen-3 .password .show-hide {
     margin-right: -5em;
   }
-  .screen-1 .login {
+  .screen-3 .login {
     padding: 1em;
     background: #3e4684;
     color: white;
@@ -102,14 +96,14 @@
     margin-left: 5em;
     width: 10em;
   }
-  .screen-1 .footer {
+  .screen-3 .footer {
     display: flex;
     font-size: 0.7em;
     color: #5e5e5e;
     gap: 14em;
     padding-bottom: 10em;
   }
-  .screen-1 .footer span {
+  .screen-3 .footer span {
     cursor: pointer;
     width: 5em;
   }

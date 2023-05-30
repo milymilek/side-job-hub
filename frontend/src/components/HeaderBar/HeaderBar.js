@@ -38,7 +38,7 @@ export default function HeaderBar() {
         <div className="header-home">
             <div className="header-logo-name">
                 <img className='logo-home' src={Logo}/>
-                <h3>Hi {name}</h3>
+                <h3>Hi, {name}</h3>
             </div>
             <img className='logout' src={Logout} onClick={logout}/>
         </div>

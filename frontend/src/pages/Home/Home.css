@@ -6,8 +6,6 @@
   box-shadow: 0 0 2em #e6e9f9;
   gap: 1.5em;
   margin-top: 3%;
-  margin-left: 4%;
-  margin-right: 4%;
   margin-bottom: 2%;
   padding: 0em 0.5em 0em 0.5em;
   width: 1000px;
@@ -114,10 +112,17 @@
     width: 1em;
   }
 
-.screen-2 .offers-near .map {
+/* .screen-2 .offers-near .map {
     background-color: #5ea0cc;
     height: 12em;
     width: 55em;
+    border-radius: 10px;
+    margin-left: 2.5em;
+  } */
+
+  .screen-2 .offers-near .map {
+    height: 12em;
+    width: 72.5em;
     border-radius: 10px;
     margin-left: 2.5em;
   }
@@ -146,4 +151,10 @@
 
 .field-text {
 
+}
+
+
+.screen-2 .form-add {
+  display: flex;
+  flex-direction: column;
 }

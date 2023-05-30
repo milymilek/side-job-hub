@@ -6,7 +6,7 @@ import {React, useState} from "react";
 import {Link, Navigate} from "react-router-dom";
 import axios from "axios";
 
-import '../Login/Login.css'
+import './Register.css'
 
 export default function Register() {
     const [first_name, setFirstName] = useState('');
@@ -26,7 +26,7 @@ export default function Register() {
     }
 
     return (
-        <div className="screen-1">
+        <div className="screen-3">
             <img className='logo' src={Logo} />
             <form onSubmit={submit}>
                 <div className="email">
@@ -66,14 +66,6 @@ export default function Register() {
                         <img src={hideIcon} />
                     </div>
                 </div>
-                {/*<div className="password">*/}
-                {/*    <label htmlFor="password">Repeat password</label>*/}
-                {/*    <div className="sec-2">*/}
-                {/*        <img src={lockIcon}/>*/}
-                {/*        <input className="pas" type="password" name="repeat_password" placeholder="············"/>*/}
-                {/*        <img src={hideIcon}/>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
                 <button class="login" type="submit">Register</button>
             </form>
             <div class="footer">

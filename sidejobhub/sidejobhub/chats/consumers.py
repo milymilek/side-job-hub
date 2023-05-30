@@ -4,7 +4,7 @@ from channels.generic.websocket import JsonWebsocketConsumer
 
 from .models import Conversation, Message
 from sidejobhub.users.models import User
-from .api.serializers import MessageSerializer
+from .api.serializers import MessageSerializer, ConversationSerializer
 
 import json
 from uuid import UUID
@@ -37,8 +37,6 @@ class ChatConsumer(JsonWebsocketConsumer):
             return
         self.user_obj = User.objects.get(email=self.scope['user']["email"])
 
-        print(f"\n\n\n\n\nUSER: {type(self.user).__name__}\n\n\n\n\n\n\n")
-
         print("Connected!")
         self.accept()
         self.conversation_name = f"{self.scope['url_route']['kwargs']['conversation_name']}"
@@ -51,9 +49,12 @@ class ChatConsumer(JsonWebsocketConsumer):
         )
 
         messages = self.conversation.messages.all().order_by("-timestamp")[0:50]
+        past_conversations = Conversation.objects.filter(name__contains=self.user['first_name'])
+
         self.send_json({
             "type": "last_50_messages",
             "messages": MessageSerializer(messages, many=True).data,
+            "past_conversations": ConversationSerializer(past_conversations, context={"user": self.user['first_name']}, many=True).data,
         })
 
     def disconnect(self, code):
@@ -62,7 +63,6 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     def receive_json(self, content, **kwargs):
         message_type = content["type"]
-        print("\n\n\n\n\n\n\n\n\n CONTENT: ", content['message'], self.channel_layer, "\n\n\n\n\n\n\n\n")
         if message_type == "chat_message":
             message = Message.objects.create(
                 from_user=self.user_obj,

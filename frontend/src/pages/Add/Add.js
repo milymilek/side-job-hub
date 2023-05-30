@@ -1,82 +1,127 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link, Navigate} from 'react-router-dom'
 
 import Logo from "../../assets/icons/logo.svg";
 import Logout from "../../assets/icons/logout.svg"
 import Search from "../../assets/icons/search.svg";
 
+import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
 import NavBar from "../../components/NavBar/NavBar.js"
+import MyMapSelect from "../../components/MyMapSelect/MyMapSelect.js"
 
 import "../Home/Home.css"
 import axios from "axios";
 
 
 export default function Add() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [id, setId] = useState(null);
+
+    useEffect(() => {
+        (
+            async () => {
+                const {data} = await axios.get("authentication/user/", {withCredentials: true});
+                setId(data.id);
+                
+                setAnnouncement((prevState) => ({
+                    ...prevState,
+                    created_by: data.id
+                  }));
+            }
+        )();
+    }, []);
+
+    const [announcement, setAnnouncement] = useState({
+        title: '',
+        description: '',
+        price: '',
+        availability: '',
+        contact: '',
+        longitude: 0,
+        latitude: 0,
+        created_by: id
+      });
     const [navigate, setNavigate] = useState(false);
 
     const submit = async e => {
-        // e.preventDefault()
-        // const {data} = await fetch(`http://localhost:8000/create_announcement/`);
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('announcements/create_announcement/', announcement);
+            setNavigate(true);
+          } catch (error) {
+            console.error(error);
+          }
+
         setNavigate(true);
-    }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setAnnouncement((prevState) => ({
+          ...prevState,
+          [name]: value
+        }));
+    };
+
+    const handleLocationSelect = (location) => {
+        setAnnouncement((prevState) => ({
+            ...prevState,
+            longitude: location.lng,
+            latitude: location.lat
+          }));
+    };
+    
 
     if (navigate) {
         return <Navigate to="/home"/>;
     }
 
+    console.log(announcement);
+
     return (
         <div className="screen-2">
-            <div className="header-home">
-                <img className='logo-home' src={Logo}/>
-                <p>Announce something!</p>
-                <img className='logout' src={Logout}/>
-            </div>
+            <HeaderBar />
 
-            <form onSubmit={submit}>
-                <div className="form-field">
-                    <div classname="field-desc">
-                        <h8>What is your need?</h8>
+            <form className="form-add" onSubmit={submit}>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example1" class="form-control" name="title" value={announcement.title} onChange={handleInputChange} />
+                    <label class="form-label" for="form7Example1">Title</label>
+                </div>
+
+                <div class="roww mb-4" style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                            <textarea class="form-control" id="form6Example7" rows="4" name="description" value={announcement.description} onChange={handleInputChange} ></textarea>
+                            <label class="form-label" for="form6Example7">Description</label>
+                        </div>
                     </div>
-                    <div className="field-text">
-                        <input/>
+                    <div class="col">
+                        <div class="form-outline mb-4">
+                            <MyMapSelect onLocationSelect={handleLocationSelect} />
+                            <label class="form-label" for="form6Example7">Location</label>
+                        </div>
                     </div>
                 </div>
 
-                <div className="form-field">
-                    <div className="field-desc">
-                        <h8>Describe it</h8>
-                        <h8>500 signs</h8>
-                    </div>
-                    <div className="field-text">
-                        <input/>
-                    </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example1" class="form-control" name="price" value={announcement.price} onChange={handleInputChange} />
+                    <label class="form-label" for="form7Example1">Price</label>
                 </div>
 
-                <div className="form-field">
-                    <div className="field-desc">
-                        <h8>Upload attachments if needed</h8>
-                    </div>
-                    <div className="field-text">
-                        <input className='picture-load' type="file" name="file"/>
-                    </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example1" class="form-control" name="availability" value={announcement.availability} onChange={handleInputChange} />
+                    <label class="form-label" for="form7Example1">Availability</label>
                 </div>
 
-                <div className="form-field">
-                    <div className="field-desc">
-                        <h8>Category</h8>
-                    </div>
-                    <div className="field-text">
-                        <input className='picture-load' type="file" name="file"/>
-                    </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example1" class="form-control" name="contact" value={announcement.contact} onChange={handleInputChange} />
+                    <label class="form-label" for="form7Example1">Contact</label>
                 </div>
 
+                
 
-                <input className="login" type="submit" value="Submit"/>
-
+                <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
             </form>
-
 
             <NavBar />
         </div>

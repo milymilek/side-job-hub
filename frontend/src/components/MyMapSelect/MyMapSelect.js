@@ -4,23 +4,25 @@ import mapboxgl from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import Pin from "../../assets/icons/pin.svg";
-
 import "../../pages/Home/Home.css"
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
+console.log(mapboxgl.accessToken)
 
 const styles = {
-  height: "17em",
-  width: "72.5em",
+  height: "9em",
+  width: "40em",
   borderRadius: "10px",
-  position: "absolute"
+  position: "relative"
 };
 
-export default function MyMap({locations, startLocation}) {
+export default function MyMapSelect({onLocationSelect}) {
   const [map, setMap] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const mapContainer = useRef(null);
+  var startLocation = [0, 0];
 
-  if ( navigator.geolocation && !startLocation) {
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition( function(position) {
         startLocation = [position.coords.longitude, position.coords.latitude];               
     });
@@ -49,21 +51,23 @@ export default function MyMap({locations, startLocation}) {
         setMap(map);
         map.resize();
       });
+
+      map.on('click', (e) => {
+        const { lngLat } = e;
+        setSelectedLocation(lngLat);
+        console.log(lngLat);
+        onLocationSelect(lngLat);
+      });
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
   }, [map]);
 
   useEffect(() => {
-    if (map && locations) {
-      locations.forEach((location) => {
-        const marker = new mapboxgl.Marker().setLngLat([location.longitude, location.latitude]).addTo(map);
-        marker.getElement().addEventListener('click', () => {
-          window.location.href = `/announcement/${location.id}`;
-        });
-      });
+    if (map && selectedLocation) {
+        const marker = new mapboxgl.Marker().setLngLat(selectedLocation).addTo(map);
     }
-  }, [map, locations]);
+  }, [map, selectedLocation]);
 
   return <div ref={el => (mapContainer.current = el)} style={styles} />;
 }

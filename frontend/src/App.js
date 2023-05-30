@@ -9,6 +9,8 @@ import Chat from './pages/Chat/Chat.tsx'
 import Add from './pages/Add/Add.js'
 import Announcement from './pages/Announcement/Announcement.js'
 import MyMap from './components/MyMap/MyMap.js'
+import Search from './pages/Search/Search.js'
+import Profile from './pages/Profile/Profile.js'
 
 export default function App() {
   return (
@@ -22,9 +24,11 @@ export default function App() {
             <Route path="/home" element={<Home/>} />
             <Route path="/announcement/:id" element={<Announcement/>} />
             <Route path="/add" element={<Add/>} />
+            <Route path="/search/:query" element={<Search/>} />
             <Route path="/dm/:conversationName" element={<Chat/>} />
             {/* <Route path="/conversations" element={<Conversations />} /> */}
             <Route path="/map" element={<MyMap/>} />
+            <Route path="/profile" element={<Profile/>} />
           </Routes>
         </div>
       </Router>
