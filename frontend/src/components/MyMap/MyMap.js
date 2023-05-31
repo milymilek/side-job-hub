@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Map, {ReactMapGl, GeolocateControl} from 'react-map-gl'
 import mapboxgl from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-import Pin from "../../assets/icons/pin.svg";
 
 import "../../pages/Home/Home.css"
 
@@ -30,7 +27,7 @@ export default function MyMap({locations, startLocation}) {
     const initializeMap = ({ setMap, mapContainer }) => {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+        style: "mapbox://styles/mapbox/streets-v11",
         center: startLocation,
         zoom: 12
       });

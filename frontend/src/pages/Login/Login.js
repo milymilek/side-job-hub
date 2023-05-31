@@ -1,12 +1,13 @@
+import {React, useState} from "react";
+import {Link, Navigate} from "react-router-dom";
+import axios from "axios";
+
 import Logo from "../../assets/icons/logo.svg";
 import mailIcon from "../../assets/icons/mail.svg";
 import lockIcon from "../../assets/icons/lock.svg";
 import hideIcon from "../../assets/icons/hide.svg";
-import {React, useState} from "react";
-import {Link, Navigate} from "react-router-dom";
 
 import './Login.css'
-import axios from "axios";
 
 export default function Login() {
     const [email, setEmail] = useState('');

@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Map, {ReactMapGl, GeolocateControl} from 'react-map-gl'
 import mapboxgl from "mapbox-gl";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import Pin from "../../assets/icons/pin.svg";
 import "../../pages/Home/Home.css"
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
-console.log(mapboxgl.accessToken)
 
 const styles = {
   height: "9em",

@@ -76,8 +76,6 @@ export default function Add() {
         return <Navigate to="/home"/>;
     }
 
-    console.log(announcement);
-
     return (
         <div className="screen-2">
             <HeaderBar />

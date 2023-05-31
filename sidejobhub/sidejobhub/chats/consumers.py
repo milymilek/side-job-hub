@@ -13,17 +13,11 @@ from uuid import UUID
 class UUIDEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, UUID):
-            # if the obj is uuid, we simply return the value of uuid
             return obj.hex
         return json.JSONEncoder.default(self, obj)
 
 
 class ChatConsumer(JsonWebsocketConsumer):
-    """
-    This consumer is used to show user's online status,
-    and send notifications.
-    """
-
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.user = None
@@ -37,7 +31,6 @@ class ChatConsumer(JsonWebsocketConsumer):
             return
         self.user_obj = User.objects.get(email=self.scope['user']["email"])
 
-        print("Connected!")
         self.accept()
         self.conversation_name = f"{self.scope['url_route']['kwargs']['conversation_name']}"
 
@@ -62,10 +55,8 @@ class ChatConsumer(JsonWebsocketConsumer):
                 "user": self.user['first_name'],
             },
         )
-        #
-        self.conversation.online.add(self.user['id'])
 
-        print(f"\n\n\n\n\n\n\n\n{self.conversation.online.all()}\n\n\n\n\n\n\n")
+        self.conversation.online.add(self.user['id'])
 
         messages = self.conversation.messages.all().order_by("timestamp")[0:50]
         past_conversations = Conversation.objects.filter(name__contains=self.user['first_name'])
@@ -77,7 +68,6 @@ class ChatConsumer(JsonWebsocketConsumer):
         })
 
     def disconnect(self, code):
-        print("Disconnected!")
         async_to_sync(self.channel_layer.group_send)(
             self.conversation_name,
             {
@@ -127,8 +117,6 @@ class ChatConsumer(JsonWebsocketConsumer):
         usernames = self.conversation_name.split("__")
         for username in usernames:
             if username != self.user['first_name']:
-                # This is the receiver
-                print(f"\n\n\n\n\n\n\n\nusername: {username}\n\n\n\n\n\n\n")
                 return User.objects.get(first_name=username)
 
     @classmethod

@@ -1,13 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import {Link, Navigate} from 'react-router-dom'
 
-import Logo from "../../assets/icons/logo.svg";
-import Logout from "../../assets/icons/logout.svg"
-import Search from "../../assets/icons/search.svg";
 
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
 import NavBar from "../../components/NavBar/NavBar.js"
-import MyMapSelect from "../../components/MyMapSelect/MyMapSelect.js"
 
 import "../Home/Home.css"
 import axios from "axios";
@@ -36,7 +32,6 @@ export default function Profile() {
         e.preventDefault();
         try {
             const response = await axios.post('users/update_avatar/', avatar);
-            console.log(response);
           } catch (error) {
             console.error(error);
           }
@@ -49,9 +44,6 @@ export default function Profile() {
             avatar: file.name
           }));
       };
-
-      console.log(avatar);
-    
     
     return (
         <div className="screen-2">

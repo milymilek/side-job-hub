@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {Link, Navigate} from 'react-router-dom'
 import axios from "axios";
-
 import { MDBListGroup, MDBListGroupItem, MDBBtn } from 'mdb-react-ui-kit';
 
-import Logo from "../../assets/icons/logo.svg";
 import Pin from "../../assets/icons/pin.svg";
 import Book from "../../assets/icons/book.svg";
 import SearchIcon from "../../assets/icons/search.svg"
-import Logout from "../../assets/icons/logout.svg"
 
 import NavBar from "../../components/NavBar/NavBar.js"
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
-import SliderList from "../../components/SliderList/SliderList.js";
 import MyMap from "../../components/MyMap/MyMap.js"
 
 import "./Home.css"
@@ -26,24 +22,24 @@ export default function Home() {
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
-        const getData = async () => {
-            try {
-                const response = await fetch(`http://localhost:8000/announcements/recommend/`);
-                if (!response.ok) {
-                    throw new Error(`This is an HTTP error: The status is ${response.status}`);
+        (
+            async () => {
+                try {
+                    const response = await fetch(`http://localhost:8000/announcements/recommend/`);
+                    if (!response.ok) {
+                        throw new Error(`This is an HTTP error: The status is ${response.status}`);
+                    }
+                    let actualData = await response.json();
+                    setAnnouncements(actualData);
+                    setError(null);
+                } catch(err) {
+                    setAnnouncements(null);
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
                 }
-                let actualData = await response.json();
-                console.log(actualData);
-                setAnnouncements(actualData);
-                setError(null);
-            } catch(err) {
-                setError(err.message);
-                setAnnouncements(null);
-            } finally {
-                setLoading(false);
             }
-        }
-        getData()
+        )();
     }, [])
 
     useEffect(() => {

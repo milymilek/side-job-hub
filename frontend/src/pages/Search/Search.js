@@ -9,8 +9,6 @@ import SearchIcon from "../../assets/icons/search.svg"
 
 import NavBar from "../../components/NavBar/NavBar.js"
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
-import SliderList from "../../components/SliderList/SliderList.js";
-import MyMap from "../../components/MyMap/MyMap.js"
 
 import "../../pages/Home/Home.css"
 
@@ -30,7 +28,6 @@ export default function Search() {
                     throw new Error(`This is an HTTP error: The status is ${response.status}`);
                 }
                 let actualData = await response.json();
-                console.log(actualData);
                 setAnnouncements(actualData);
                 setError(null);
             } catch(err) {

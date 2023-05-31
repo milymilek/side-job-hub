@@ -46,9 +46,6 @@ export default function Announcement() {
         )();
     }, []);
 
-    console.log(announcement);
-
-
     if (!announcement) {
         return <p>Loading announcement...</p>;
     }

@@ -2,16 +2,14 @@ import React, {useState, useEffect, useRef } from 'react';
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { Link, useParams } from 'react-router-dom';
 import { useHotkeys } from "react-hotkeys-hook";
+import axios from "axios";
 
 import NavBar from "../../components/NavBar/NavBar.js";
 import HeaderBar from "../../components/HeaderBar/HeaderBar.js"
 import Avatar from "../../assets/avatars/pudzian_avatar.jpg";
 
-import axios from "axios";
-
 import "./Chat.css";
-
-import {extractReceiver} from "../../utils"
+import {extractReceiver, calculateTimeAgo} from "../../utils"
 
 
 export default function Chat() {
@@ -20,12 +18,13 @@ export default function Chat() {
     const [message, setMessage] = useState("");
     const [name, setName] = useState("");
     const [token, setToken] = useState("");
-    const [welcomeMessage, setWelcomeMessage] = useState("");
     const [messageHistory, setMessageHistory] = useState<any>([]);
     const [pastConversations, setPastConversations] = useState<any>([]);
 
     const [participants, setParticipants] = useState<string[]>([]);
     const [typing, setTyping] = useState(false);
+    const [meTyping, setMeTyping] = useState(false);
+    const timeout = useRef<any>();
     
     const webSocketUrl = name ? `ws://127.0.0.1:5000/chat_socket/${conversationName}` : null;
     const { readyState, sendJsonMessage } = useWebSocket(webSocketUrl, {
@@ -33,18 +32,14 @@ export default function Chat() {
             token: name ? token : "",
         },
         onOpen: () => {
-        console.log("Connected!");
+            console.log("Connected!");
         },
         onClose: () => {
-        console.log("Disconnected!");
+            console.log("Disconnected!");
         },
-
         onMessage: (e) => {
         const data = JSON.parse(e.data);
             switch (data.type) {
-            case "welcome_message":
-                setWelcomeMessage(data.message);
-                break;
             case 'chat_message_echo':
                 setMessageHistory((prev:any) => prev.concat(data.message));
                 break;
@@ -55,7 +50,7 @@ export default function Chat() {
             case "user_join":
                 setParticipants((pcpts: string[]) => {
                     if (!pcpts.includes(data.user)) {
-                    return [...pcpts, data.user];
+                        return [...pcpts, data.user];
                     }
                     return pcpts;
                 });
@@ -128,10 +123,6 @@ export default function Chat() {
         backgroundColor: "#eee",
     };
 
-    console.log(messageHistory);
-    console.log(pastConversations);
-    console.log(participants);
-
     const inputReference: any = useHotkeys(
         "enter",
         () => {
@@ -142,13 +133,9 @@ export default function Chat() {
         }
       );
       
-      useEffect(() => {
+    useEffect(() => {
         (inputReference.current as HTMLElement).focus();
-      }, [inputReference]);
-
-
-    const [meTyping, setMeTyping] = useState(false);
-    const timeout = useRef<any>();
+    }, [inputReference]);
     
     function timeoutFunction() {
         setMeTyping(false);
@@ -176,23 +163,6 @@ export default function Chat() {
       }
 
 
-
-    const calculateTimeAgo = (timestamp: string): string => {
-        const messageDate = new Date(timestamp);
-        const now = new Date();
-        const diffInMilliseconds = now.getTime() - messageDate.getTime();
-        const diffInMinutes = Math.floor(diffInMilliseconds / (1000 * 60));
-        
-
-        if (diffInMinutes > 1440) {
-            return `${Math.floor(diffInMinutes / (60*24))} day(s) ago`;
-        }
-        if (diffInMinutes > 60) {
-            return `${Math.floor(diffInMinutes / 60)} hour(s) ago`;
-        }
-        return `${diffInMinutes} min(s) ago`;
-    }
-
     return (
         <div className="screen-2">
             <HeaderBar />
@@ -200,7 +170,6 @@ export default function Chat() {
                 <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
                     <div className="conversations">
                     <div className="card-body">
-
                         <ul className="list-unstyled mb-0">
                             {pastConversations.map((conversation: any, idx: number) => (
                                 <li className="p-2 border-bottom" style={style1}>

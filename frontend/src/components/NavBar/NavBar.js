@@ -70,7 +70,7 @@ export default function App() {
                 <Link to="/profile" style={{ textDecoration: 'none' }}>
                     <MDBNavbarItem style={{ padding: '1.5em' }}>
                         <div className="navbar-el">
-                            <img src={Home}/>
+                            <img src={Profile}/>
                             <MDBNavbarLink className={(url === "/profile" ? "active" : "")}>Profile</MDBNavbarLink>
                         </div>
                     </MDBNavbarItem>
