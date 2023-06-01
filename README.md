@@ -53,7 +53,7 @@ This will download the required dependencies, set up the Django backend, Postgre
 
 9. Access the SideJobHub web application by opening your web browser and visiting `http://localhost:3000`.
 
-![alt text](site.png)
+![alt text](site.png)!
 
 ## Contributing
 
