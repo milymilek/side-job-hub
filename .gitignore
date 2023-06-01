@@ -8,6 +8,7 @@
 build/
 env
 /staticfiles/
+site.png
 
 #src
 *.sqlite*
